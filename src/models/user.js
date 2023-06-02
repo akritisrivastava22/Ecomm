@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 import AuthRoles from "./utils/authRoles.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt.js";
 
 const userSchema = new Schema ({
     name:{
@@ -32,5 +32,22 @@ const userSchema = new Schema ({
     
     {timestamps:true}
 );
+
+//Encrypt password using Mongoose hooks
+//you cant use callback in hooks thats why we use this keyword
+userSchema.pre("save", async function(next){
+    if(!this.isModified("password"))
+    return next();
+    this.password = await bcrypt.hash(this.password, 10)
+    next();
+
+    
+})
+//instead of decrypting and comparing the pass, we encrypt the entered password as well to compare and match
+userSchema.methods= {
+    comparePassword: async function(enteredPassword){
+        return await bcrypt.compare(enteredPassword, this.password)
+    }
+}
 
 export default mongoose.model("User", userSchema);
