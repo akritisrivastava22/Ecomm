@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 import AuthRoles from "./utils/authRoles.js";
 import bcrypt from "bcrypt.js";
+import JWT from "jsonwebtoken";
+import config from "../config/index.js";
 
 const userSchema = new Schema ({
     name:{
@@ -47,6 +49,16 @@ userSchema.pre("save", async function(next){
 userSchema.methods= {
     comparePassword: async function(enteredPassword){
         return await bcrypt.compare(enteredPassword, this.password)
+    },
+//Generating tokens
+    getJWTtoken: function(){
+        //documentation
+        //_id is an unique id which is by default created by mongo db just lik eprimary key in sql. It will be used in frontend for user mapping
+
+        JWT.sign({_id: this._id}, config.JWT_SECRET,
+        {
+            expiresIn: config.JWT_EXPIRY
+        })
     }
 }
 
