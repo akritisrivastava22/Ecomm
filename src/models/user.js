@@ -4,6 +4,7 @@ import AuthRoles from "./utils/authRoles.js";
 import bcrypt from "bcrypt.js";
 import JWT from "jsonwebtoken";
 import config from "../config/index.js";
+import crypto from "crypto";
 
 const userSchema = new Schema ({
     name:{
