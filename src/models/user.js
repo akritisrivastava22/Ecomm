@@ -56,7 +56,7 @@ userSchema.methods= {
         //documentation
         //_id is an unique id which is by default created by mongo db just lik eprimary key in sql. It will be used in frontend for user mapping
 
-        JWT.sign({_id: this._id}, config.JWT_SECRET,
+        JWT.sign({_id: this._id , role: this.role}, config.JWT_SECRET,
         {
             expiresIn: config.JWT_EXPIRY
         })
