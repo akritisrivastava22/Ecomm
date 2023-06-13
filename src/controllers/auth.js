@@ -91,3 +91,16 @@ export const logout = asyncHandler( async(req,res)=> {
     })
 })
 
+export const getProfile = asyncHandler(async(req,res) => {
+    //destructuring req.user has name email and role so we are pulling it 
+    const {user} = req
+    if(!user) {
+        throw new CustomError("User not found",401)
+    }
+
+    req.status(200).json({
+        success: true,
+        user
+    })
+})
+
