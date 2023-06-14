@@ -8,8 +8,8 @@ router.post("/signup", signUp)
 router.post("/login", login)
 router.get("/logout", logout)
 
-// router.post("/password/forgot/", forgotPassword)
-// router.post("/password/reset/:token", resetPassword)
+router.post("/password/forgot/", forgotPassword)
+router.post("/password/reset/:token", resetPassword)
 
 router.get("/profile", isLoggedIn, getProfile)
 
